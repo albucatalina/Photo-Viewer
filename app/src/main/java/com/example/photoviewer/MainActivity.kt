@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,14 +25,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.photoviewer.ui.theme.PhotoViewerTheme
 
+data class Picture(var image: Int, var description: String, var address: String)
+
 class MainActivity : ComponentActivity() {
+
+    private val pictures = listOf(
+        Picture(R.drawable.duomo, "Duomo di Milano", "P.za del Duomo, 20122 Milano MI, Italia"),
+        Picture(R.drawable.casa_galimberti, "Casa Galimberti", "Via Marcello Malpighi, 3, 20129 Milano MI, Italia"),
+        Picture(R.drawable.bosco_verticale, "Bosco Verticale", "Via Gaetano de Castillia, 11, 20124 Milano MI, Italia"),
+        Picture(R.drawable.dinosaur, "Museo di Storia Naturale", "Corso Venezia, 55, 20121 Milano MI, Italia"),
+        Picture(R.drawable.castello_sforzesco, "Castello Sforzesco", "Piazza Castello, 20121 Milano MI, Italia"),
+        Picture(R.drawable.cannoli, "Cannoli", "Viale Ercole Marelli, 320, 20099 Sesto San Giovanni MI, Italia"),
+        Picture(R.drawable.castello_pozzi, "Castello Pozzi", "V.le Berengario, 8, 20149 Milano MI, Italia"),
+        Picture(R.drawable.arco_della_pace, "Arco della Pace", "Piazza Sempione, 20154 Milano MI, Italia"),
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -52,7 +71,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier
                 .background(Color.LightGray)
                 .padding(horizontal = 24.dp)
-                .padding(top = 80.dp)
+                .padding(top = 36.dp)
                 .fillMaxSize()
         ) {
             Title(
@@ -61,13 +80,13 @@ class MainActivity : ComponentActivity() {
                     .padding(vertical = 30.dp)
             )
             PhotoWall(
-                image = R.drawable.arco_della_pace,
-                description = "Arco della Pace",
-                address = "address",
+                image = pictures[0].image,
+                description = pictures[0].description,
+                address = pictures[0].address,
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
                     .background(Color.White)
-                    .padding(bottom = 20.dp)
+                    .padding(bottom = 8.dp)
             )
             NavigationButtons(
                 modifier = Modifier
@@ -105,9 +124,16 @@ class MainActivity : ComponentActivity() {
             Text(
                 text = description,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = 18.sp,
+                textAlign = TextAlign.Center
             )
-            Text(text = address)
+            Row(modifier = modifier.padding(all = 8.dp)) {
+                Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
+                Text(
+                    text = address,
+                    textAlign = TextAlign.Center
+                )
+            }
         }
     }
 
