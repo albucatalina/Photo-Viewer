@@ -69,6 +69,12 @@ class MainActivity : ComponentActivity() {
                     .background(Color.White)
                     .padding(bottom = 20.dp)
             )
+            NavigationButtons(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 32.dp)
+            )
         }
     }
 
@@ -102,6 +108,28 @@ class MainActivity : ComponentActivity() {
                 fontSize = 18.sp
             )
             Text(text = address)
+        }
+    }
+
+    @Composable
+    private fun NavigationButtons(modifier: Modifier = Modifier){
+        Row(modifier = modifier) {
+            Button(
+                onClick = { /*TODO*/ },
+                shape = RectangleShape,
+                modifier = Modifier.width(130.dp)
+            ) {
+                Text(text = "Previous")
+            }
+            Button(onClick = { /*TODO*/ },
+                shape = RectangleShape,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth(Alignment.End)
+                    .width(130.dp)
+            ) {
+                Text(text = "Next")
+            }
         }
     }
 
