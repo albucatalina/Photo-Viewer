@@ -1,5 +1,6 @@
 package com.example.photoviewer
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -21,11 +22,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -40,6 +46,7 @@ class MainActivity : ComponentActivity() {
 
     private val pictures = listOf(
         Picture(R.drawable.duomo, "Duomo di Milano", "P.za del Duomo, 20122 Milano MI, Italia"),
+        Picture(R.drawable.museo_del_novencento, "Museo del Novencento", "P.za del Duomo, 8, 20123 Milano MI, Italia"),
         Picture(R.drawable.casa_galimberti, "Casa Galimberti", "Via Marcello Malpighi, 3, 20129 Milano MI, Italia"),
         Picture(R.drawable.bosco_verticale, "Bosco Verticale", "Via Gaetano de Castillia, 11, 20124 Milano MI, Italia"),
         Picture(R.drawable.dinosaur, "Museo di Storia Naturale", "Corso Venezia, 55, 20121 Milano MI, Italia"),
@@ -66,6 +73,9 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun PhotoViewerLayout(){
+        var pictureIndex by remember {
+            mutableIntStateOf(0)
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -80,15 +90,17 @@ class MainActivity : ComponentActivity() {
                     .padding(vertical = 30.dp)
             )
             PhotoWall(
-                image = pictures[0].image,
-                description = pictures[0].description,
-                address = pictures[0].address,
+                image = pictures[pictureIndex].image,
+                description = pictures[pictureIndex].description,
+                address = pictures[pictureIndex].address,
                 modifier = Modifier
                     .padding(horizontal = 24.dp)
                     .background(Color.White)
                     .padding(bottom = 8.dp)
             )
             NavigationButtons(
+                onPreviousClicked = { pictureIndex = (pictureIndex - 1 + pictures.size) % pictures.size },
+                onNextClicked = { pictureIndex = (pictureIndex + 1) % pictures.size },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
@@ -138,16 +150,21 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    private fun NavigationButtons(modifier: Modifier = Modifier){
+    private fun NavigationButtons(
+        onPreviousClicked: () -> Unit,
+        onNextClicked: () -> Unit,
+        modifier: Modifier = Modifier
+    ){
         Row(modifier = modifier) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = onPreviousClicked,
                 shape = RectangleShape,
                 modifier = Modifier.width(130.dp)
             ) {
                 Text(text = "Previous")
             }
-            Button(onClick = { /*TODO*/ },
+            Button(
+                onClick = onNextClicked,
                 shape = RectangleShape,
                 modifier = Modifier
                     .fillMaxWidth()
