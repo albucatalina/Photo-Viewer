@@ -7,8 +7,12 @@ import androidx.activity.compose.setContent
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -80,7 +84,7 @@ class MainActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .background(Color.LightGray)
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 48.dp)
                 .padding(top = 36.dp)
                 .fillMaxSize()
         ) {
@@ -94,18 +98,23 @@ class MainActivity : ComponentActivity() {
                 description = pictures[pictureIndex].description,
                 address = pictures[pictureIndex].address,
                 modifier = Modifier
-                    .padding(horizontal = 24.dp)
                     .background(Color.White)
                     .padding(bottom = 8.dp)
             )
-            NavigationButtons(
-                onPreviousClicked = { pictureIndex = (pictureIndex - 1 + pictures.size) % pictures.size },
-                onNextClicked = { pictureIndex = (pictureIndex + 1) % pictures.size },
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 24.dp)
-                    .padding(top = 32.dp)
-            )
+                    .fillMaxSize()
+                    .padding(bottom = 100.dp)
+            ) {
+                NavigationButtons(
+                    onPreviousClicked = { pictureIndex = (pictureIndex - 1 + pictures.size) % pictures.size },
+                    onNextClicked = { pictureIndex = (pictureIndex + 1) % pictures.size },
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                )
+            }
+
+
         }
     }
 
@@ -139,7 +148,7 @@ class MainActivity : ComponentActivity() {
                 fontSize = 18.sp,
                 textAlign = TextAlign.Center
             )
-            Row(modifier = modifier.padding(all = 8.dp)) {
+            Row(modifier = modifier.padding(all = 16.dp)) {
                 Icon(imageVector = Icons.Default.LocationOn, contentDescription = null)
                 Text(
                     text = address,
