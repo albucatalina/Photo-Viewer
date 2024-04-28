@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -64,7 +65,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PhotoViewerLayout()
+                    PhotoViewLayoutWithBackground()
                 }
             }
         }
@@ -78,10 +79,8 @@ class MainActivity : ComponentActivity() {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
-                .background(Color.LightGray)
                 .padding(horizontal = 48.dp)
                 .padding(top = 36.dp)
-                .fillMaxSize()
         ) {
             Title(
                 title = "MILAN LANDMARKS",
@@ -181,11 +180,27 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun PhotoViewLayoutWithBackground(){
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.photo_viewer_background),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+            PhotoViewerLayout()
+        }
+    }
+
     @Preview(showBackground = true)
     @Composable
     fun PhotoViewLayoutPreview(){
         PhotoViewerTheme {
-            PhotoViewerLayout()
+            PhotoViewLayoutWithBackground()
         }
     }
 }
